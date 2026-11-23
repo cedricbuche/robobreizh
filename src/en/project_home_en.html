@@ -1,0 +1,892 @@
+  <!DOCTYPE html>
+  <html lang="en">
+
+  <head>
+    <style type="text/css">
+
+      .sidenav {
+        width: 150px; /* Set the width of the sidebar */
+        position: fixed !important; /* Fixed Sidebar (stay in place on scroll) */
+        z-index: 1; /* Stay on top */
+        bottom: 30%; /* Stay at the top */
+        right: 0;
+        overflow-x: hidden; /* Disable horizontal scroll */
+        padding-top: 20px;
+        z-index: 3;
+      }
+
+      /* The navigation menu links */
+      .sidenav a {
+        padding: 6px 20px 6px 8px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+      }     
+
+      /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+      @media screen and (max-height: 450px) {
+        .sidenav {padding-top: 15px;}
+        .sidenav a {font-size: 18px;}
+      }
+
+      ul.timeline {
+        list-style-type: none;
+        position: relative;
+      }
+      ul.timeline:before {
+        content: ' ';
+        background: #d4d9df;
+        display: inline-block;
+        position: absolute;
+        right: 29px;
+        width: 2px;
+        height: 100%;
+        z-index: 400;
+      }
+      ul.timeline > li {
+        margin: 20px 40px 40px 0px;
+      }
+      ul.timeline > li:before {
+        content: ' ';
+        background: white;
+        display: inline-block;
+        position: absolute;
+        border-radius: 50%;
+        border: 3px solid #18bc9c;
+        right: 20px;
+        width: 20px;
+        height: 20px;
+        z-index: 400;
+      }
+
+      ul.timeline li a:focus {
+       background-color: #18bc9c;
+       color: white;
+     }
+
+     .videoWrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+    }
+    .videoWrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .scroll-down {
+      position: absolute;
+      left: 50%;
+      bottom: 50px;
+      display: block;
+      text-align: center;
+      font-size: 20px;
+      z-index: 100;
+      text-decoration: none;
+      text-shadow: 0;
+      width: 30px;
+      height: 30px;
+      border-bottom: 5px solid #18bc9c;
+      border-right: 5px solid #18bc9c;
+      z-index: 9;
+      left: 50%;
+      -webkit-transform: translate(-50%, 0%) rotate(45deg);
+      -moz-transform: translate(-50%, 0%) rotate(45deg);
+      transform: translate(-50%, 0%) rotate(45deg);
+      -webkit-animation: fade_move_down 4s ease-in-out infinite;
+      -moz-animation:    fade_move_down 4s ease-in-out infinite;
+      animation:         fade_move_down 4s ease-in-out infinite;
+    }
+
+
+    /*animated scroll arrow animation*/
+    @-webkit-keyframes fade_move_down {
+     0%   { -webkit-transform:translate(0,-10px) rotate(45deg); opacity: 0;  }
+     50%  { opacity: 1;  }
+     100% { -webkit-transform:translate(0,10px) rotate(45deg); opacity: 0; }
+   }
+   @-moz-keyframes fade_move_down {
+     0%   { -moz-transform:translate(0,-10px) rotate(45deg); opacity: 0;  }
+     50%  { opacity: 1;  }
+     100% { -moz-transform:translate(0,10px) rotate(45deg); opacity: 0; }
+   }
+   @keyframes fade_move_down {
+     0%   { transform:translate(0,-10px) rotate(45deg); opacity: 0;  }
+     50%  { opacity: 1;  }
+     100% { transform:translate(0,10px) rotate(45deg); opacity: 0; }
+   }
+
+   .card-container {
+     flex: 40vh;
+   }
+   .card-container .card {
+     font-weight: bold;
+     position: relative;
+     width: 100%;
+   }
+   .card-container .card a {
+     width: 100%;
+     height: 20vh;
+     border: 2px solid black;
+     background: white;
+     text-decoration: none;
+     color: black;
+     display: block;
+     transition: 0.25s ease;
+   }
+   .card-container .card a:hover {
+     transform: translate(-30px, -30px);
+     border-color: #18bc9c;
+   }
+   .card-container .card a:hover .card--display {
+     display: none;
+   }
+   .card-container .card a:hover .card--hover {
+     display: block;
+   }
+   .card-container .card a .card--display i {
+     font-size: 36px;
+     margin-top: 50px;
+   }
+   .card-container .card a .card--display h2 {
+     margin: 20px 0 0;
+   }
+   .card-container .card a .card--hover {
+     display: none;
+   }
+   .card-container .card a .card--hover h2 {
+     margin: 20px 0;
+   }
+   .card-container .card a .card--hover p {
+     font-weight: normal;
+     line-height: 1.5;
+   }
+   .card-container .card a .card--hover p.link {
+     margin: 20px 0 0;
+     font-weight: bold;
+     color: #18bc9c;
+   }
+   .card-container .card .card--border {
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     left: 0;
+     top: 0;
+     border: 2px dashed black;
+     z-index: -1;
+   }
+   .card-container .card.card--dark a {
+     color: white;
+     background-color: black;
+     border-color: black;
+   }
+   .card-container .card.card--dark a .card--hover .link {
+     color: #fde74c;
+   }
+   
+   
+   .wrapper img {
+
+    max-width: auto;
+    height: 40%;
+    max-height: 400px;
+  }
+  .demo {
+    height: 100%;
+  }
+  .material-icons.md-48 { font-size: 74px; }
+  
+  @media screen and (min-width: 800px) {
+    #content{
+      max-width: 70%;
+    }
+  }
+</style>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="robocup@home team">
+<meta name="author" content="RoboBreizh">
+
+<title>RoboBreizh - a Robocup@home team</title>
+<link rel="icon" href="../../img/favicon.ico" />
+
+<!-- Bootstrap core CSS -->
+<link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom fonts for this template -->
+<link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!-- Plugin CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet" type="text/css">
+
+<!-- Custom styles for this template -->
+<link href="../../css/freelancer.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg bg-secondary fixed-top text-uppercase" id="mainNav">
+   <div class="container">
+    <a class="navbar-brand js-scroll-trigger" href="index_en.html">
+      <img src="../../img/logo.png" width="60" height="50" class="d-inline-block"> RoboBreizh</a>
+      <button class="navbar-toggler navbar-toggler-right text-uppercase bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item mx-0 mx-lg-1">
+            <div class="dropdown d-none d-lg-block d-xl-block">
+              <a class="btn nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger dropdown-toggle" id="dropHome" data-display="static" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><b>@Home</b></a>
+              <div class="dropdown-menu" aria-labelledby="dropHome">
+                <a class="dropdown-item" href="project_home_en.html">Approach</a>
+                <a class="dropdown-item" href="team_home_en.html">Team</a>
+              </div>
+            </div>
+            <div class="d-lg-none d-md-block d-sm-block d-xl-none d-xs-block">
+              <p class="text-white"> <b>Robocup@Home :</b></p>
+              <ul>
+               <a class="nav-link" style="font-size: 0.8em;" href="project_home_en.html">Approach</a>
+               <a class="nav-link" style="font-size: 0.8em;" href="team_home_en.html">Team</a>
+             </ul>
+           </div>
+         </li>
+         <li class="nav-item mx-0 mx-lg-1">
+           <div class="dropdown d-none d-lg-block d-xl-block">
+             <a class="btn nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger dropdown-toggle" id="dropSoccer" data-display="static" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><b>Soccer</b></a>
+             <div class="dropdown-menu " aria-labelledby="dropSoccer">
+              <a class="dropdown-item" href="project_soccer_en.html">Approach</a>
+              <a class="dropdown-item" href="team_soccer_en.html">Team</a>
+            </div>
+          </div>
+          <div class="d-lg-none d-md-block d-sm-block d-xl-none d-xs-block">
+            <p class="text-white"> <b>RobocupSoccer :</b></p>
+            <ul>
+              <a class="nav-link" style="font-size: 0.8em;" href="project_soccer_en.html">Approach</a>
+              <a class="nav-link" style="font-size: 0.8em;" href="team_soccer_en.html">Team</a>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item mx-0 mx-lg-1">
+          <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="links_en.html">Links</a>
+        </li>
+        <li class="nav-item mx-0 mx-lg-1">
+          <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="publications_en.html">Publications</a>
+        </li> 
+        <li class="nav-item mx-0 mx-lg-1">
+          <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="partners_en.html">Partners</a>
+        </li>
+        <!--li class="nav-item mx-0  mx-lg-1">
+          <a class="nav-link py-2" href="project_home_en.html" ><img src="../../img/en.png" style="width: 2em; height: 2em;"></a>
+        </li>
+        <li class="nav-item mx-0  mx-lg-1">
+          <a class="nav-link py-2 px-0" href="../fr/project_home_fr.html" ><img src="../../img/fr.png" style="width: 2em; height: 2em;"></a>
+        </li-->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="d-none d-lg-block d-xl-block sidenav">
+  <ul class="timeline container">
+    <li class="row align-items-start">
+      <a class="nav-link rounded js-scroll-trigger col pt-0" href="#2023">2023</a>
+    </li>
+    <li class="row align-items-start">
+      <a class="nav-link rounded js-scroll-trigger col pt-0" href="#2022">2022</a>
+    </li>
+    <li class="row align-items-start">
+      <a class="nav-link rounded js-scroll-trigger col pt-0" href="#2021">2021</a>
+    </li>
+    <li>
+      <a class="nav-link rounded js-scroll-trigger col pt-0" href="#2020">2020</a>
+    </li>
+    <!--li>
+      <a class="nav-link rounded js-scroll-trigger col pt-0" href="#2019">2019</a>
+    </li>
+    <li>
+      <a class="nav-link rounded js-scroll-trigger col pt-0" href="#2018">2018</a>
+    </li-->
+  </ul>
+  
+</div>
+  <br>
+<section class="masterhead text-center " style="padding-top: 15vh; height: 100vh;" >
+
+  <div class="container demo img-fluid">
+    <h2 class="text-center text-uppercase">@HOME</h2>
+
+    <div class="wrapper text-center">
+      <figure class="text-center">
+       <a href="javascript:;" class="img-fluid mb-5 d-block mx-auto pop"><img class=" z-depth-1" alt="Responsive image" src="../../img/pepper.jpg"  style="height: 40vh !important; "></a>
+       <figcaption>Fig. Pepper robot from SoftBanks Robotic<br> <cite style="font-size: small;">Credits : <a href="https://robots.nu/fr/robot/Pepper">https://robots.nu/fr/robot/Pepper</a></cite></figcaption>
+     </figure>
+     <!--h5>Our main research is focused on Human Robot Interaction (HRI) using Interactive Machine Learning.</h5-->
+   </div>
+  <div class="wrapper text-left">
+      You can find below: <br> <a href="#contributions">1. Scientific approaches</a> 
+	<br> <a href="#2023">2. Qualification materials (2023)</a>
+	<br> <a href="#2022">3. Participation in RoboCup (2022, 2021 and 2020)</a>
+   </div>
+   <a style="text-decoration:none;" class="material-icons md-48 js-scroll-trigger" href="#contributions">expand_more</a>
+ </div>
+</section>
+
+<section>
+
+  <div class="container" id="content">
+
+
+
+     <!--div class="row">
+      <div class="col-lg-6 col-xs-12">
+        <h5 class="text-center">Qualification Video</h5>
+        <figure class="videoWrapper">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/FCbEyJuy4IQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </figure>
+      </div>
+      <div class="text-center col-lg-6 col-xs-12">
+        <h5 class="text-center">Team Description Paper </h5>
+        <a  href="../../publi/RoboBreizh_TDP_2021.pdf"><img height="315" src="../../publi/TDP.png"></a>
+      </div>
+    </div-->
+
+
+
+
+
+    <div class="text-left" id="contributions"><hr style=" border: 2px solid; width: 50%; margin-left: 0px;"><br>
+     <h2> Contributions</h2><br>
+   
+
+Github Source code : <a href="https://github.com/ROBOBREIZH">HERE</a> 
+<br>
+<br>
+ 
+    <hr style=" border: 1px solid; width: 25%; margin-left: 0px; color: #18bc9c;">
+<div>
+      <h3>I. Overview of Our Architecture </h3>
+      <p>Our architecture is built upon 5 ROS modules : Reasoning, Perception, Navigation, Movement and Interaction. </p>
+    </div><br>
+    <section class=" text-center d-none d-lg-block d-xl-block" id="project" style="padding-top: 0; padding-bottom: 0;" >
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="card-container col-4">
+            <div class="card"><a href="#vision" class="js-scroll-trigger">
+              <div class="card--display "><i class="material-icons">visibility</i>
+                <h3>Perception</h3>
+              </div>
+              <div class="card--hover">
+               <img src="../../img/relations.png" class="img-fluid" alt="Responsive image" style="max-height: 16vh;">
+               <p>Relations between objects</p>
+             </div>
+           </a>
+           <div class="card--border"></div>
+         </div>
+       </div>
+     </div>
+
+     <div class="row justify-content-center">
+      <div class="card-container col-4">
+        <div class="card"><a href="#navigation" class="js-scroll-trigger">
+          <div class="card--display"><i class="material-icons">place</i>
+            <h3>Navigation</h3>
+          </div>
+          <div class="card--hover">
+            <img src="../../img/Our_Project/visualSlam.png" class="img-fluid" alt="Responsive image" style="max-height: 16vh">
+            <p>ROS Navigation Stack</p>
+          </div>
+        </a>
+        <div class="card--border"></div>
+      </div>
+    </div>
+    <div class="card-container col-4">
+      <div class="card"><a href="#manager" class="js-scroll-trigger">
+        <div class="card--display"><i class="material-icons">psychology</i>
+          <h3>Reasoning</h3>
+        </div>
+        <div class="card--hover">
+          <img src="../../img/Our_Project/Schema_manager.png" class="img-fluid" alt="Responsive image" style="max-height: 19vh">
+        </div>
+      </a>
+      <div class="card--border"></div>
+    </div>
+  </div>
+  <div class="card-container col-4">
+    <div class="card"><a href="#movement" class="js-scroll-trigger">
+      <div class="card--display"><i class="material-icons">precision_manufacturing</i>
+       <h3>Movement</h3>
+     </div>
+     <div class="card--hover">
+      <img src="../../img/Our_Project/movement.PNG" class="img-fluid" alt="Responsive image"  style="max-height: 16vh">
+      <p>GMM / GMR (Custom)</p>
+    </div>
+  </a>
+  <div class="card--border"></div>
+</div>
+</div>
+</div>
+<div class="row justify-content-center">
+  <div class="card-container col-4">
+    <div class="card"><a href="#dialog" class="js-scroll-trigger">
+      <div class="card--display"><i class="material-icons">record_voice_over</i>
+        <h3>Interaction</h3>
+      </div>
+      <div class="card--hover">
+        <img src="../../img/vr.png" class="img-fluid" alt="Responsive image"  style="max-height: 16vh">
+        <p>Interaction in Virtual Reality</p>
+
+      </div>
+    </a>
+    <div class="card--border"></div>
+  </div>
+</div>
+</div>
+
+</div>
+</section>  
+
+
+<br>
+<hr style=" border: 1px solid; width: 25%; margin-left: 0px; color: #18bc9c;">
+<h3>II. Main Contributions</h3><br id="movement">
+<h4 >1. Movement Learning From Demonstrations</h4>
+<div class="row">
+  <div class="col-lg-6 col-xs-12">
+    <p class="text-justify">After developing a generic architecture which reproduces a movement, we need to learn a movement from multiple demonstrations. The chosen model is the combination of GMM (Gaussian Mixture Model) and GMR (Gaussian Mixture Regression). GMM generalizes the movement with Gaussians. Then, GMR regenerates the movement using the GMM output. Each demonstration and generated movement are saved in their respective files. Thus, the user can make demonstrations of a movement, which he has chosen the name, then starts the learning. When the user chooses to start the learned movement, the movement will work in real-time because the learning was done before. <!--This movement learning was added to the first generic architecture (see 2019 works) to test the model on various robots.--> The Pepper and Nao robot were tested on simulation using SoftBank Robotics' QiBullet simulator.</p>
+    <h5><a href="https://www.enib.fr/~legeleux/videos_en.html">More information about this project</a></h5>
+  </div>
+  <div class="col-lg-6 col-xs-12">
+   <figure class="videoWrapper">
+     <iframe width="560" height="315" src="https://www.youtube.com/embed/fs4SBioWGjo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+   </figure>
+   <p><h6 class="text-center">Example video</h6></p>
+ </div>
+
+</div>
+<br id="dialog">
+<h4>2. Human-Robot Interaction</h4>
+
+<div class="row">
+  <div class="col-lg-6 col-xs-12">
+    <h5>2.1. 	NLP</h5><p class="text-justify">
+   RoboBreizh decided to take advantage of latest advances in NLP with the use of BERT for Joint-Slot Filling. Joint-Slot Filling is a task that aims at classifying utterances in intent class and then fill related slots as arguments. Our contribution is a newly generated dataset that supports the annotation format of the Joint-Slot Filling task as well as the fine-tuning of a JointBERT model, focusing on pronoun disambiguation in the GPSR task.
+
+
+
+    <h5>2.2. Speaker Recognition</h5><p class="text-justify">We provide a solution that recognize a speaker voice by learning, no matter the speaking language. The proposed model exploits <a href="https://github.com/mravanelli/SincNet/">SincNet</a>, which requires as learning parameters only lower and higher cut frequencies, and therefore reduces the number of parameters learned per each filter and makes this number of parameters independent of the range. In addition, we combined both the Sinc Net and a Siamese Network with an algorithm to train Siamese neural networks in speaker identification.</p>
+  
+    <h5>2.3. Virtual reality interactions</h5><p class="text-justify">
+RoboBreizh develops new VR system. The idea is to provide safety while testing new solutions. In addition the users can interact remotely with the virtual robot. 
+</p>
+  </div>
+  <div class="col-lg-6 col-xs-12">
+    <figure class="videoWrapper">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/TNTeqkV7jHg" frameborder="0" allow="accelerometer; autoplay;  encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </figure>
+    <p><h6 class="text-center">Dialog Pipeline Demonstration video</h6></p>
+    <!--figure class="text-center">
+     <a href="javascript:;" class="pop"><img class="img-fluid z-depth-1" src="../../img/pipeline_dialog.png" style="max-width: 80%; height: auto;"></a>
+     <figcaption><h6 class="text-center">Diagram of the Pipeline</h6></figcaption>
+   </figure-->
+   <!--figure class="videoWrapper">
+     <iframe width="560" height="315" src="https://www.youtube.com/embed/-Av_uAEylkU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>   
+   </figure>
+   
+   <p><h6 class="text-center">Speaker Recognition Demonstration video</h6></p-->
+    <figure class="text-center">
+     <a href="javascript:;" class="pop"><img class="img-fluid z-depth-1" src="../../img/vr.png" style="max-width: 100%; height: auto;"></a>
+     <figcaption><h6 class="text-center">Interaction in Virtual Reality</h6></figcaption>
+   </figure>
+   <!--figure class="videoWrapper">
+     <iframe width="560" height="315" src="https://www.youtube.com/embed/6mpyzD4fpwE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>   
+   </figure>
+   <p><h6 class="text-center">Emotion Demonstration video</h6></p-->
+ </div>
+</div><br>
+<hr style=" border: 1px solid; width: 25%; margin-left: 0px; color: #18bc9c;">
+<h3>III. Others</h3><br id="manager">
+<h4>1. Reasoning</h4>
+
+<div class="row">
+  <div class="col-lg-6 col-xs-12">
+    <p class="text-justify">The robot reasoning (manager) is a high level structure. Modules output are stored as object instance and available to be used as an input information later. The manager executes tasks in the required order, scheduling Pepper behavior. It also handles task priority.  This architecture was designed to easily add new behaviors. A new behavior can be implemented without editing any external modules. In order to bypass execution lags, orders are canceled if they take too long to execute.</p>
+  </div>
+  <div class="col-lg-6 col-xs-12">
+   <figure class="text-center">
+     <a href="javascript:;" class="pop"><img class="img-fluid z-depth-1" src="../../img/Our_Project/Schema_manager.png" class="img-fluid" alt="Responsive image" style="max-height: 30vh"></a>
+     <figcaption><h6 class="text-center">Architecture Diagram</h6></figcaption>
+   </figure>
+ </div>
+</div><br id="vision">
+
+<h4>2. Perception</h4>
+
+<div class="row">
+  <div class="col-lg-6 col-xs-12">
+    <p class="text-justify">
+  The perception offers a collection of ROS services with options, including a distance filter to prevent objects from being detected outside of the arena. A home-made combination of pre-trained
+Single Shot Detector (SSD) with Inception and MobileNet is used to detect all types of objects in the arena. We also use recent works  on Visual Relationships Detection (VRD) to infer relationships between entities in the scene, in an end-to-end manner.
+A CNN-based model predicts human joint locations of multiple persons from an RGB image.
+    
+    
+    
+    
+    </p>  
+  </div>
+  <div class="col-lg-6 col-xs-12">
+   <figure class="text-center">
+     <a href="javascript:;" class="pop"><img class="img-fluid z-depth-1" src="../../img/relations.png" class="img-fluid" alt="Responsive image"></a>
+     <figcaption><h6 class="text-center">Detected relations grounded to object regions, each colored
+node correspond to the same color bounding box and the white nodes are the
+relation predicates</h6></figcaption>
+   </figure>
+ </div>
+</div><br id="navigation">
+
+<h4>3. Navigation</h4>
+<div class="row">
+  <div class="col-lg-6 col-xs-12">
+    	<p class="text-justify">
+A new generation of map should be able to detect objects at height to avoid collisions. 
+Using Visual-SLAM, Octomap determines a probability of obstacle presence from a point cloud and generates a voxel, visualization in Rviz.
+First, it is necessary to convert the image of the depth camera into a point cloud and then pass the different arguments in parameter of the octomap_server node. A projection from map 3D to map 2D is done. It is relevant to use octomap' filters (notably height level filter) in order to avoid projecting lamps, beams or even the floor itself on a 2D map.
+RoboBreizh is able to use Octomap or Rtabmap, depending on the characteristics of the environment to map.
+RoboBreizh use a new dynamic local planner inside
+the <a href="http://wiki.ros.org/navigation">ROS Navigation Stack</a> to avoid moving obstacles.
+	</p>    
+<!--p class="text-justify">Our approach for navigation is based on a specific implementation for Pepper using the <a href="http://wiki.ros.org/navigation">ROS Navigation Stack</a>. First mapping is provided by Gmapping ROS package which provides a tool to generate 2D occupancy map from lasers sensors data using SLAM. Unfortunately, the data provided by Pepper lasers sensors are not accurate enough to build a detailed map. Consequently, in addition to those inputs, we decided to feed the mapping node with data from the Pepper's RGB-D camera. Once a valid map is obtained, it can be used for navigation. Thus, a real-time localization will be performed using amcl ROS node. The next step is to compute a path through a given goal and achieve it. This is performed by move_base Node that will define a global and local planner for the robot to follow.      
+    </p-->
+  </div>
+  <div class="col-lg-6 col-xs-12">
+   <figure class="text-center">
+     <a href="javascript:;" class="pop"><img class="img-fluid z-depth-1" src="../../img/Our_Project/visualSlam.png" class="img-fluid" alt="Responsive image" style="max-height: 30vh"></a>
+     <figcaption><h6 class="text-center">3D Mapping / Navigation (visual SLAM)</h6></figcaption>
+   </figure>
+ </div>
+</div>
+
+<h4>4. Simulation</h4>
+ <div class="row">
+  <div class="col-lg-6 col-xs-12">
+    <p>All our code is working with Gazebo, QiBullet, Unity 2021 and Unreal 5. Such photo realistic engines will help to train machine learning algorithms.</p>
+  </div>
+
+  <div class="col-lg-6 col-xs-12">
+   <figure class="text-center">
+     <a href="javascript:;" class="pop"><img class="img-fluid z-depth-1" src="../../img/Unreal.png" class="img-fluid" alt="Responsive image" style="max-height: 30vh"></a>
+     <figcaption><h6 class="text-center">Unreal Simulation</h6></figcaption>
+   </figure>
+ </div>
+  
+  
+  
+  <!--div class="col-lg-6 col-xs-12">
+  
+
+
+  <figure class="videoWrapper">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/UYIgS0x8KIk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>      
+    </figure>
+    <h6 class="text-center">Gazebo Demonstration Video</h6>
+  </div-->
+</div>
+<br><br>
+
+    <div class="text-left" id="2023"><hr style=" border: 2px solid; width: 50%; margin-left: 0px;"><br>
+     <h2> 2023</h2><br>
+     <h3>RoboCup@Home 2023 : <font color="red">1<sup>st</sup> </font> </h3>
+     <h4>Social Standard Platform League (SSPL)</h4><br>
+
+      <figure class="text-center">
+        <a href="javascript:;" class="pop"><img  id="imageresource" class="img-fluid z-depth-1" src="../../img/award_2023.png" style="max-height: 350px;" ></a>
+      </figure>
+
+<!--
+     <div class="row">
+      <div class="col-lg-6 col-xs-12">
+        <h5 class="text-center">Qualification Video</h5>
+        <figure class="videoWrapper">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/x93yGjT8-As" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	</figure>
+      </div>
+      <div class="text-center col-lg-6 col-xs-12">
+        <h5 class="text-center">Team Description Paper </h5>
+        <a  href="../../publi/RoboBreizh_TDP_2023.pdf"><img height="315" src="../../publi/TDP_2023.png"></a>
+      </div>
+    </div>
+
+-->
+
+    <div class="text-left" id="2022"><hr style=" border: 2px solid; width: 50%; margin-left: 0px;"><br>
+     <h2> 2022</h2><br>
+     <h3>RoboCup@Home 2022 : <font color="red">1<sup>st</sup> </font> </h3>
+     <h4>Social Standard Platform League (SSPL)</h4><br>
+
+
+<!--
+
+     <div class="row">
+      <div class="col-lg-6 col-xs-12">
+        <h5 class="text-center">Qualification Video</h5>
+        <figure class="videoWrapper">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/wu54ml9heL0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </figure>
+      </div>
+      <div class="text-center col-lg-6 col-xs-12">
+        <h5 class="text-center">Team Description Paper </h5>
+        <a  href="../../publi/RoboBreizh_TDP_2022.pdf"><img height="315" src="../../publi/TDP_2022.png"></a>
+      </div>
+    </div>
+
+-->
+
+
+      <figure class="text-center">
+        <a href="javascript:;" class="pop"><img  id="imageresource" class="img-fluid z-depth-1" src="../../img/award_2022.png" style="max-height: 350px;" ></a>
+      </figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br><br>
+    <div class="text-left" id="2021"><hr style=" border: 2px solid; width: 50%; margin-left: 0px;"><br>
+     <h2> 2021</h2><br>
+     <h3>RoboCup@Home 2021 Virtual Competition: <font color="red">3<sup>rd</sup></font></h3>
+     <h4>Social Standard Platform League (SSPL)</h4><br>
+      <figure class="text-center">
+        <a href="javascript:;" class="pop"><img  id="imageresource" class="img-fluid z-depth-1" src="../../img/award_2021.png" style="max-height: 350px;" ></a>
+      </figure>
+
+   <!--blockquote class="blockquote text-justify"-->
+       <p>"The RoboCup@Home league aims to develop service and assistive robot technology with high relevance for future personal domestic applications. It is the largest international annual competition for autonomous service robots and is part of the RoboCup initiative." <br> <a href="https://athome.robocup.org/">RoboCup@Home league</a></p> 
+     <!--/blockquote-->
+
+ 
+     <!--div class="row">
+      <div class="col-lg-6 col-xs-12">
+        <h5 class="text-center">Inspection Video</h5>
+        <figure class="videoWrapper">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/_jD3PF2I7ig" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </figure>
+      </div>
+      </div-->
+
+
+ 
+<br><br>
+<div class="text-left" id="2020">
+  <hr style=" border: 2px solid; width: 50%; margin-left: 0px;">
+  <br><h2> 2020 </h2><br>
+  <h3>RoboCup@Home Education Online Challenge: <font color="red">1<sup>st</sup> </font></h3>
+     <h3>Social Standard Platform League (SSPL)</h3><br>
+  <br>
+  <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+
+      <div class="modal-content text-center">
+        <div class="modal-body px-0 py-0">
+          <img class="img-fluid" id="imagepreview" src="" style="max-width: 100%; height: auto;">
+        </div>
+        <div class="modal-footer">
+          <div class="container">
+            <button class=" btn btn-outline-secondary" data-dismiss="modal" type="button" >Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <figure class="text-center">
+    <a href="javascript:;" class="pop"><img  id="imageresource" class="img-fluid z-depth-1" src="../../img/award.png" style="max-height: 350px;" ></a>
+    <figcaption style="font-size: large;"><b>Prize : Best Performance Award (Standard Platform League, Open Category)</b></figcaption>
+  </figure>
+
+
+  <br>
+  <p class="text-justify"><q>RoboCup@Home Education is an educational initiative in RoboCup@Home that promotes educational efforts to boost RoboCup@Home participation and artificial intelligence (AI)-focused service robot development. </q> <br> <a href="https://www.robocupathomeedu.org/challenges/robocuphome-education-online-challenge-2020"><b>Robocup@Home Education Online Challenge official website</b></a> </p>
+  <br>
+
+  <!--div class="row">
+    <div class="col-lg-6 col-xs-12">
+      <h5>Our contribution : </h5>
+      <p class="text-justify">RoboBreizh is a French RoboCup@Home team of the Lab-STICC  laboratory.  This  year,  we  aim  to  participate  in  our  first  competition.  We  developed  an  architecture  to  solve  the  tasks  of  the  2020 RoboCup@Home  Online  Education  Challenge.  The  Qibullet  simulator was used to test and enhance our features before using them on a robot. Based  on  a  ROS  architecture,  we  produced  several  modules  linked  to each other. Those modules allow Pepper to understand, act and adapt itself in a local environment. Our research focuses on the environment’s perception and motion learning.</p>
+      <h5>Video Description Paper : <a href="../../publi/RoboBreizh_2020_Team_Description_Paper.pdf">.pdf</a></h5>
+    </div>
+    <div class="col-lg-6 col-xs-12">
+     <figure class="videoWrapper">
+      <iframe width="546" height="310" src="https://www.youtube.com/embed/dWZ7mA_Ev4E" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </figure>
+    <p><h6 class="text-center">Qualification Video</h6></p>
+  </div>
+
+</div-->
+
+<!--
+<br>
+<div class="row">
+  <div class="col-lg-6 col-xs-12">
+    <h5>Finale Demonstration :</h5>
+    <p class="text-justify">During the finals we compet against others internationnal teams. We choose to show all the Pepper robot abilities in one scenario. This scenario introduce Pepper as an hotel bellboy interacting with customers. </p>
+  </div>
+  <div class="col-lg-6 col-xs-12">
+    <figure class="videoWrapper">
+      <iframe width="546" height="310" src="https://www.youtube.com/embed/m4rjcvv7Qa8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </figure>
+    <p><h6 class="text-center">Finale Demonstration Video</h6></p>
+
+  </div>
+
+</div><br><br>
+-->
+
+<!--div class="text-left" id="2019">
+ <hr style=" border: 2px solid; width: 50%; margin-left: 0px;">
+ <h2> 2019</h2><br>
+ <h3>Speech Detection for Pepper </h3>
+ <p>Development of a Speech Detection Module for Pepper by analysis of the ambient noise. </p>
+ <br>
+</div><br><br>
+
+<div class="text-left" id="2018">
+ <hr style=" border: 2px solid; width: 50%; margin-left: 0px;">
+ <h2> 2018</h2><br>
+ <h3>Pepper welcome at CERV </h3>
+ <br>
+ <div >
+  <p class="text-justify">The internship, SAGITTAIRE (Socio-communicative Abilities by Gesture Improvement Through Temporal Active Interaction in Robotics Environments),  has resulted in the development of a receptionist robot and a model for the generation of non-verbal behaviors. For more information, see the page: <a href="https://www.enib.fr/~legeleux/videos_en.html">https://www.enib.fr/~legeleux/videos_en.html</a> </p>
+
+</div>
+</div>
+</div>
+</div-->
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Footer -->
+  <footer class="footer text-center">
+    <div class="container">
+      <div class="row justify-content-around">
+        <div class="col-md-5 mb-7 mb-lg-0">
+          <h4 class="text-uppercase mb-4">Location</h4>
+          <p class="lead mb-0">Centre Européen de Réalité Virtuelle (CERV)
+            <br>25 Rue Claude Chappe
+            <br>29280 Plouzané
+            <br>France
+          </p>
+        </div>
+        <div class="col-md-4 mb-6 mb-lg-0">
+          <h4 class="text-uppercase mb-4">Contact us</h4>
+          <p class="lead mb-0">Phone : 02 98 05 89 89
+            <br>Email : buche@enib.fr
+          </p>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="container">
+      <div class="row justify-content-center"> 
+
+        <div class="col-lg-2 col-md-3">
+          <a href="https://www.enib.fr/en/"><img src="../../img/logo-enib-accueil.jpg"  style="width: auto; max-height: 4em;"></a>
+        </div>
+
+        <div class="col-lg-2 col-md-3">
+          <a href="https://www.univ-ubs.fr/fr/index.html"><img src="../../img/ubs-logo.jpeg"  style="width: auto; max-height: 4em;"></a>
+        </div>
+
+
+     
+
+        <div class="col-lg-2 col-md-3">
+          <a href="https://www.labsticc.fr/en/index/"><img src="../../img/labsticc.jpg"  style="width: auto; max-height: 4em;"></a>
+        </div>
+
+         <div class="col-lg-2 col-md-3">
+          <a href="https://crossing.cnrs.fr/"><img src="../../img/Crossing_logo.png"  style="width: auto; max-height: 4em;"></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="copyright py-2 text-center text-white">
+    <div class="container">
+      <small>Copyright &copy; RoboBreizh</small>
+      </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+<div class="scroll-to-top position-fixed ">
+  <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top">
+    <i class="fa fa-chevron-up"></i>
+  </a>
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+
+<!-- Contact Form JavaScript -->
+<script src="../../js/jqBootstrapValidation.js"></script>
+<script src="../../js/contact_me.js"></script>
+
+<!-- Custom scripts for this template -->
+<script src="../../js/freelancer.min.js"></script>
+
+</body>
+
+</html>
+
+<script type="text/javascript">
+  $(".pop").on("click", function() {
+     $('#imagepreview').attr('src', $(this).find('img').attr('src')); // here asign the image to the modal when the user click the enlarge link
+     $('#imagemodal').modal('show'); // imagemodal is the id attribute assigned to the bootstrap modal, then i use the show function
+   });
+ </script>
